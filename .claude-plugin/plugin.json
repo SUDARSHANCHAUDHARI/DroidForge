@@ -1,0 +1,39 @@
+{
+  "name": "droidforge",
+  "description": "Automate every repetitive Android dev task — keystore creation, signing config, version bumping, Gradle version catalog management, new app scaffolding, and release checklists.",
+  "version": "1.0.0",
+  "author": {
+    "name": "SUDARSHANCHAUDHARI",
+    "url": "https://github.com/SUDARSHANCHAUDHARI"
+  },
+  "homepage": "https://github.com/SUDARSHANCHAUDHARI/DroidForge",
+  "repository": "https://github.com/SUDARSHANCHAUDHARI/DroidForge",
+  "privacy_policy": "https://sudarshanchaudhari.github.io/droidforge-claude-plugin-privacy-policy/",
+  "license": "MIT",
+  "keywords": ["android", "kotlin", "gradle", "keystore", "solo-dev", "mobile", "google-play"],
+  "commands": [
+    { "name": "setup",             "file": "commands/setup.md" },
+    { "name": "new-app",           "file": "commands/new-app.md" },
+    { "name": "keystore",          "file": "commands/keystore.md" },
+    { "name": "signing-config",    "file": "commands/signing-config.md" },
+    { "name": "version-bump",      "file": "commands/version-bump.md" },
+    { "name": "gradle-update",     "file": "commands/gradle-update.md" },
+    { "name": "release-checklist", "file": "commands/release-checklist.md" }
+  ],
+  "agents": [
+    { "name": "setup-agent",   "file": "agents/setup-agent.md" },
+    { "name": "gradle-agent",  "file": "agents/gradle-agent.md" },
+    { "name": "release-agent", "file": "agents/release-agent.md" }
+  ],
+  "skills": [
+    "skills/keystore-conventions/SKILL.md",
+    "skills/package-naming/SKILL.md",
+    "skills/gradle-best-practices/SKILL.md",
+    "skills/multi-app-structure/SKILL.md",
+    "skills/release-workflow/SKILL.md"
+  ],
+  "hooks": [
+    { "event": "PreToolUse",  "file": "hooks/pre-build-check.md" },
+    { "event": "PostToolUse", "file": "hooks/post-version-bump.md" }
+  ]
+}

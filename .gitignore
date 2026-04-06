@@ -1,0 +1,38 @@
+# Claude Code local settings
+.claude/
+
+# DroidForge per-project config — contains keystore password, NEVER commit
+.claude-plugin-config.json
+
+# Personal planning docs
+PLUGIN_2_ANDROID_SOLO_DEV_WORKFLOW.md
+
+# Android keystores — NEVER commit
+*.jks
+*.keystore
+
+# Android local build config — NEVER commit
+local.properties
+
+# Android build outputs
+*.aab
+*.apk
+*.aar
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.idea/
+*.iml
+.vscode/
+
+# Node
+node_modules/
