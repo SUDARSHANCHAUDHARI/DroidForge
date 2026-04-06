@@ -107,6 +107,62 @@ Loaded automatically by Claude when relevant context is detected:
 
 ---
 
+## How It Works
+
+```
+/droidforge:setup ──► .claude-plugin-config.json (local only)
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                ▼                ▼
+        new-app           keystore        version-bump
+        signing-config    gradle-update   release-checklist
+```
+
+- **setup** — saves your conventions once, all commands read from it silently
+- **setup-agent** — scaffolds complete Android project files on demand
+- **gradle-agent** — enforces AGP ↔ Gradle ↔ Kotlin ↔ Compose compatibility
+- **release-agent** — version bump, changelog from git log, annotated tags
+
+---
+
+## Plugin Structure
+
+```
+DroidForge/
+├── .claude-plugin/
+│   ├── plugin.json              # Plugin manifest
+│   └── marketplace.json         # Marketplace listing
+├── commands/                    # setup, new-app, keystore, signing-config,
+│                                #   version-bump, gradle-update, release-checklist
+├── agents/                      # setup-agent, gradle-agent, release-agent
+├── skills/                      # keystore-conventions, package-naming,
+│                                #   gradle-best-practices, multi-app-structure,
+│                                #   release-workflow
+├── hooks/                       # pre-build-check, post-version-bump
+├── README.md
+├── DOCUMENTATION.md
+├── CHANGELOG.md
+└── LICENSE
+```
+
+---
+
+## Troubleshooting
+
+**"Run /droidforge:setup first"** — Run `/droidforge:setup` in your project directory to create the config file.
+
+**`keytool: command not found`** — Install a JDK or add Android Studio's bundled JDK to your PATH. See [DOCUMENTATION.md](DOCUMENTATION.md#troubleshooting) for platform-specific instructions.
+
+**AGP / Gradle sync failure** — Update `gradle-wrapper.properties` to a compatible Gradle version. See the [Gradle Compatibility Matrix](DOCUMENTATION.md#gradle-compatibility-matrix).
+
+---
+
+## Documentation
+
+For full details — all command examples, Gradle compatibility matrix, troubleshooting, and plugin architecture — see [DOCUMENTATION.md](DOCUMENTATION.md).
+
+---
+
 ## Requirements
 
 - Claude Code
