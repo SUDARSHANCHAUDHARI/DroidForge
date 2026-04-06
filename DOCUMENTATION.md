@@ -545,6 +545,16 @@ On macOS you can also use the JDK bundled with Android Studio:
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 ```
 
+On Windows — add to System Environment Variables:
+```
+JAVA_HOME = C:\Program Files\Android\Android Studio\jbr
+PATH = %JAVA_HOME%\bin;%PATH%
+```
+Or use the standalone JDK path if you installed one separately:
+```
+JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x.x-hotspot
+```
+
 ### Signing config not working — `ClassCastException` at Gradle sync
 
 This happens if `local.properties` is missing one of the required keys. Check that all four are present:
