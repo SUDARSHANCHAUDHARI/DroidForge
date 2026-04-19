@@ -186,7 +186,7 @@ For full details — all command examples, Gradle compatibility matrix, troubles
 ## Author
 
 **SUDARSHANCHAUDHARI** — [github.com/SUDARSHANCHAUDHARI](https://github.com/SUDARSHANCHAUDHARI)
-SudarshanTechLabs | sudarshantechlabs@gmail.com
+SudarshanTechLabs
 
 ---
 
