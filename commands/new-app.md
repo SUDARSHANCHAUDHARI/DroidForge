@@ -18,7 +18,7 @@ First, read `.claude-plugin-config.json` from the current directory.
    - App name (e.g. "TaskMaster")
    - App category / purpose (1–2 sentences describing what it does)
    - Minimum SDK version (default: 24 — press Enter to accept)
-   - Target SDK version (default: 35 — press Enter to accept)
+   - Target SDK version (default: 36 — press Enter to accept)
    - Will it have ads? (AdMob y/n)
    - Will it have in-app purchases? (y/n)
 
@@ -65,12 +65,12 @@ plugins {
 
 android {
     namespace = "[derived_package_name]"
-    compileSdk = [targetSdk]
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "[derived_package_name]"
         minSdk = [minSdk]
-        targetSdk = [targetSdk]
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -134,15 +134,15 @@ dependencies {
 **gradle/libs.versions.toml** — use current stable versions as of 2025:
 ```toml
 [versions]
-agp = "8.7.0"
-kotlin = "2.1.0"
+agp = "8.9.0"
+kotlin = "2.1.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
-composeBom = "2025.02.00"
+composeBom = "2025.05.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

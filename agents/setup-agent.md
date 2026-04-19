@@ -47,7 +47,7 @@ Read `.claude-plugin-config.json` from the current directory.
 - Build system: Gradle with Kotlin DSL (.kts files)
 - Architecture: MVVM with Repository pattern
 - UI: Jetpack Compose (unless user specifies XML views)
-- AGP: 8.7.0+, Kotlin: 2.1.0+, compileSdk/targetSdk: 35
+- AGP: 8.9.0+, Kotlin: 2.1.0+, compileSdk/targetSdk: 36
 
 ## Files you generate for every new app
 
