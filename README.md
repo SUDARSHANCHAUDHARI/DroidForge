@@ -18,6 +18,15 @@
 5. Update `libs.versions.toml` with compatibility checks (AGP ↔ Gradle ↔ Kotlin ↔ Compose)
 6. Run an interactive pre-submission checklist before every Play Store release
 
+## Why This Exists
+
+By app number twenty, the Android release checklist was twelve manual steps. Keystore signing errors were occurring because the signing config wasn't regenerated after credential changes. Version codes were being submitted unchanged because `versionCode` lived in `build.gradle.kts` alongside everything else and was easy to miss.
+
+DroidForge encodes the entire Android release preparation layer — signing config generation, version management, Gradle catalog updates, pre-submission checklist — into repeatable commands. Each command was built in response to a specific failure at fleet scale, not as a philosophical preference for automation.
+
+The plugin manages 22+ Android apps in production under SudarshanTechLabs.
+
+
 ---
 
 ## Install
