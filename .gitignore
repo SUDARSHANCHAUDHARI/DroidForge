@@ -37,3 +37,6 @@ build/
 # Node
 node_modules/
 PLAN.md
+
+# graphify knowledge graph
+graphify-out/
