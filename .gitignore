@@ -47,3 +47,8 @@ graphify-out/
 !.env.example
 *.key
 secrets.json
+
+repoguard-results/
+
+# local AI task notes
+CLAUDE_TASKS.md
