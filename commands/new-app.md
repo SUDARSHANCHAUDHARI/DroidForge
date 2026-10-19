@@ -33,8 +33,8 @@ First, read `.claude-plugin-config.json` from the current directory.
 ```bash
 keytool -genkeypair \
   -alias [appname_lowercase] \
-  -keypass {config.android.keystore_password} \
-  -storepass {config.android.keystore_password} \
+  -keypass:env DROIDFORGE_KEYSTORE_PASSWORD \
+  -storepass:env DROIDFORGE_KEYSTORE_PASSWORD \
   -keystore [appname_lowercase].jks \
   -keyalg RSA \
   -keysize 2048 \
@@ -44,7 +44,8 @@ keytool -genkeypair \
 
    Ask: "Run keystore generation now? (y/n)"
    - If y: run the command using Bash tool, then verify with:
-     `keytool -list -v -keystore [appname_lowercase].jks -storepass {config.android.keystore_password}`
+     `keytool -list -v -keystore [appname_lowercase].jks -storepass:env DROIDFORGE_KEYSTORE_PASSWORD`
+   - If `DROIDFORGE_KEYSTORE_PASSWORD` is not set (`[ -n "$DROIDFORGE_KEYSTORE_PASSWORD" ] && echo set || echo missing`), do not run it; tell the user to export it in their shell profile. Never ask for the password in chat.
    - If n: remind user to run it manually before building a release
 
 4. Generate the following files (write them to disk):
@@ -169,9 +170,9 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 **local.properties additions** (show separately — DO NOT write to disk; instruct user to add manually):
 ```properties
 KEYSTORE_PATH=[appname_lowercase].jks
-KEYSTORE_PASSWORD={config.android.keystore_password}
+KEYSTORE_PASSWORD=<your keystore password>
 KEY_ALIAS=[appname_lowercase]
-KEY_PASSWORD={config.android.keystore_password}
+KEY_PASSWORD=<your keystore password>
 ```
 
 **AndroidManifest.xml** — base manifest with package name

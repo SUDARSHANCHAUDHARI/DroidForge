@@ -54,7 +54,6 @@ This creates `.claude-plugin-config.json` in the current directory and automatic
 | `developer.country_code` | 2-letter ISO code for keystore | `US` |
 | `developer.city` | City for keystore dname | `New York` |
 | `android.package_prefix` | Prefix for all your apps | `com.janecoder` |
-| `android.keystore_password` | Keystore password (stored locally only) | `YourPassword` |
 | `github_pages.privacy_policy_pattern` | Privacy policy URL template | `https://janecoder.github.io/{appname}-privacy-policy/` |
 
 ---
@@ -76,7 +75,7 @@ DROIDFORGE SETUP COMPLETE
 Developer:      Jane Smith (JaneTechLabs)
 GitHub:         janecoder
 Package prefix: com.janecoder
-Keystore pass:  ••••••••• (saved locally)
+Keystore pass:  not stored — read from $DROIDFORGE_KEYSTORE_PASSWORD
 Country:        United States (US)
 City:           New York
 
@@ -140,14 +139,16 @@ Generate a keystore for an Android app.
 ```bash
 keytool -genkeypair \
   -alias taskmaster \
-  -keypass yourpassword \
-  -storepass yourpassword \
+  -keypass:env DROIDFORGE_KEYSTORE_PASSWORD \
+  -storepass:env DROIDFORGE_KEYSTORE_PASSWORD \
   -keystore taskmaster.jks \
   -keyalg RSA -keysize 2048 -validity 10000 \
   -dname "CN=JaneTechLabs, OU=Mobile, O=JaneTechLabs, L=New York, ST=New York, C=US"
 ```
 
-After creation, verifies with `keytool -list -v` and outputs the signing config block.
+The password comes from the `DROIDFORGE_KEYSTORE_PASSWORD` environment variable, set in your own shell profile. DroidForge never asks for it or stores it.
+
+After creation, verifies with `keytool -list -v` and shows the `local.properties` entries; `/droidforge:signing-config` generates the Gradle block.
 
 **Example output:**
 ```
@@ -156,7 +157,7 @@ KEYSTORE CREATED: taskmaster.jks
 ⚠  Add *.jks to .gitignore — never commit keystores
 ⚠  Back up this file to secure cloud storage immediately
 ⚠  Losing this keystore = cannot update the app on Play Store
-✓  Keystore password matches your DroidForge config
+✓  Keystore password taken from $DROIDFORGE_KEYSTORE_PASSWORD (not stored by DroidForge)
 ✓  Validity: 10000 days (~27 years)
 ```
 
@@ -200,9 +201,9 @@ android {
 **local.properties entries to add manually (never commit this file):**
 ```properties
 KEYSTORE_PATH=taskmaster.jks
-KEYSTORE_PASSWORD=yourpassword
+KEYSTORE_PASSWORD=<your keystore password>
 KEY_ALIAS=taskmaster
-KEY_PASSWORD=yourpassword
+KEY_PASSWORD=<your keystore password>
 ```
 
 **Example output:**
@@ -501,7 +502,6 @@ plugins {
   },
   "android": {
     "package_prefix": "com.yourcompany",
-    "keystore_password": "••••••••",
     "keystore_cn": "YourCompany",
     "keystore_country_code": "US",
     "keystore_city": "Your City"
@@ -560,9 +560,9 @@ JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x.x-hotspot
 This happens if `local.properties` is missing one of the required keys. Check that all four are present:
 ```properties
 KEYSTORE_PATH=yourapp.jks
-KEYSTORE_PASSWORD=yourpassword
+KEYSTORE_PASSWORD=<your keystore password>
 KEY_ALIAS=yourapp
-KEY_PASSWORD=yourpassword
+KEY_PASSWORD=<your keystore password>
 ```
 
 ### `./gradlew bundleRelease` — wrong signing key

@@ -17,16 +17,16 @@ First, read `.claude-plugin-config.json` from the current directory.
 1. Ask for:
    - App name (used as keystore alias)
    - Derive alias as `[appname_lowercase]` (lowercase, no spaces or special characters)
-   - Confirm: "Use standard keystore password from config? (y/n)"
-     - If n: ask for custom password and confirm it
+   - Check the password is available without printing it: `[ -n "$DROIDFORGE_KEYSTORE_PASSWORD" ] && echo set || echo missing`
+     - If missing: tell the user to `export DROIDFORGE_KEYSTORE_PASSWORD='...'` in their shell profile and restart Claude Code, or run the command below themselves in a terminal where it is set. Never ask for the password in chat.
 
 2. Build the keytool command and display it clearly to the user. DO NOT run it yet:
 
 ```bash
 keytool -genkeypair \
   -alias [appname_lowercase] \
-  -keypass {config.android.keystore_password} \
-  -storepass {config.android.keystore_password} \
+  -keypass:env DROIDFORGE_KEYSTORE_PASSWORD \
+  -storepass:env DROIDFORGE_KEYSTORE_PASSWORD \
   -keystore [appname_lowercase].jks \
   -keyalg RSA \
   -keysize 2048 \
@@ -40,31 +40,18 @@ keytool -genkeypair \
 
 4. After running, verify the keystore was created successfully:
 ```bash
-keytool -list -v -keystore [appname_lowercase].jks -storepass {config.android.keystore_password}
+keytool -list -v -keystore [appname_lowercase].jks -storepass:env DROIDFORGE_KEYSTORE_PASSWORD
 ```
    Show the verification output. If the command fails, show the error and stop.
 
-5. Output the signing config block for `app/build.gradle.kts`:
-
-```kotlin
-signingConfigs {
-    create("release") {
-        storeFile = file("[appname_lowercase].jks")
-        storePassword = "{config.android.keystore_password}"
-        keyAlias = "[appname_lowercase]"
-        keyPassword = "{config.android.keystore_password}"
-    }
-}
-```
-
-   Also show the recommended local.properties approach:
+5. Show the local.properties entries for signing, then tell the user to run `/droidforge:signing-config` to generate the `app/build.gradle.kts` block that reads them. Never put a password literal in `build.gradle.kts`.
 
 ```properties
-# Add to local.properties (never commit this file)
+# Add to local.properties yourself (never commit this file; never paste the password into chat)
 KEYSTORE_PATH=[appname_lowercase].jks
-KEYSTORE_PASSWORD={config.android.keystore_password}
+KEYSTORE_PASSWORD=<your keystore password>
 KEY_ALIAS=[appname_lowercase]
-KEY_PASSWORD={config.android.keystore_password}
+KEY_PASSWORD=<your keystore password>
 ```
 
 6. Remind the user:
@@ -74,6 +61,6 @@ KEY_PASSWORD={config.android.keystore_password}
    ⚠  Add *.jks to .gitignore — never commit keystores
    ⚠  Back up this file to secure cloud storage immediately
    ⚠  Losing this keystore = cannot update the app on Play Store
-   ✓  Keystore password matches your DroidForge config
+   ✓  Keystore password taken from $DROIDFORGE_KEYSTORE_PASSWORD (not stored by DroidForge)
    ✓  Validity: 10000 days (~27 years)
    ```

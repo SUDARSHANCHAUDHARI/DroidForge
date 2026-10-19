@@ -74,7 +74,7 @@ saved config automatically — no repeated questions, no hardcoded values.
 ```
 /droidforge:setup
 ```
-Saves your developer name, package prefix, keystore password, and GitHub info to `.claude-plugin-config.json` (auto-added to `.gitignore`).
+Saves your developer name, package prefix, and GitHub info to `.claude-plugin-config.json` (auto-added to `.gitignore`). The keystore password is never stored: set `DROIDFORGE_KEYSTORE_PASSWORD` in your shell profile.
 
 **2. Scaffold a new app**
 ```

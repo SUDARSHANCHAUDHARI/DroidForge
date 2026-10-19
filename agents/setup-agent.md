@@ -40,7 +40,7 @@ Read `.claude-plugin-config.json` from the current directory.
 ## Config-based conventions you always follow
 
 - Package name: `{config.android.package_prefix}.[appname_lowercase]`
-- Keystore alias = app name lowercase, password = `{config.android.keystore_password}`
+- Keystore alias = app name lowercase, password from the `DROIDFORGE_KEYSTORE_PASSWORD` env var (never stored in config)
 - Privacy policy URL: `{config.github_pages.privacy_policy_pattern}` (substitute `{appname}` with app name lowercase with hyphens)
 - Minimum SDK: 24 (Android 7.0) unless user specifies otherwise
 - Language: Kotlin only — never Java

@@ -14,7 +14,7 @@ trigger: when creating a keystore, configuring signing, or scaffolding a new And
 | Key size    | 2048 bits                                   |
 | Validity    | 10000 days (~27 years)                      |
 | Key alias   | [appname_lowercase] (e.g. taskmaster)       |
-| Key pass    | from config: `{config.android.keystore_password}` |
+| Key pass    | env var `DROIDFORGE_KEYSTORE_PASSWORD` (never stored by DroidForge) |
 | Store pass  | same as key pass (consistent for simplicity)|
 | CN          | `{config.android.keystore_cn}`              |
 | OU          | Mobile                                      |
@@ -34,8 +34,8 @@ Example: app "TaskMaster" → `taskmaster.jks`, alias `taskmaster`
 ```bash
 keytool -genkeypair \
   -alias [appname_lowercase] \
-  -keypass {config.android.keystore_password} \
-  -storepass {config.android.keystore_password} \
+  -keypass:env DROIDFORGE_KEYSTORE_PASSWORD \
+  -storepass:env DROIDFORGE_KEYSTORE_PASSWORD \
   -keystore [appname_lowercase].jks \
   -keyalg RSA \
   -keysize 2048 \
@@ -65,5 +65,5 @@ Google Play App Signing adds a second layer of protection:
 ### Verification after creation
 
 ```bash
-keytool -list -v -keystore [appname_lowercase].jks -storepass {config.android.keystore_password}
+keytool -list -v -keystore [appname_lowercase].jks -storepass:env DROIDFORGE_KEYSTORE_PASSWORD
 ```
