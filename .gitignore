@@ -1,7 +1,7 @@
 # Claude Code local settings
 .claude/
 
-# DroidForge per-project config — contains keystore password, NEVER commit
+# DroidForge per-project config — local developer details, NEVER commit
 .claude-plugin-config.json
 
 # Personal planning docs

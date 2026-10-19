@@ -18,16 +18,15 @@ First, read `.claude-plugin-config.json` from the current directory.
    - App name / alias
    - Keystore filename (default: `[appname_lowercase].jks` — press Enter to accept)
    - Is the keystore in the project root or a separate `keystores/` folder? (root/keystores)
-   - Use `local.properties` for credentials? (y/n — recommended yes)
 
-2. If using `local.properties` (recommended):
+2. Credentials always come from `local.properties` (untracked). Never write a password literal into `build.gradle.kts`.
 
    **Show the local.properties entries to add** (tell user to add manually — never write credentials to tracked files):
    ```properties
    KEYSTORE_PATH=[keystore_filename]
-   KEYSTORE_PASSWORD={config.android.keystore_password}
+   KEYSTORE_PASSWORD=<your keystore password>
    KEY_ALIAS=[appname_lowercase]
-   KEY_PASSWORD={config.android.keystore_password}
+   KEY_PASSWORD=<your keystore password>
    ```
 
    **Write the build.gradle.kts signingConfigs block:**
@@ -61,41 +60,7 @@ First, read `.claude-plugin-config.json` from the current directory.
    }
    ```
 
-3. If NOT using `local.properties` (not recommended — warn user):
-
-   **Output warning:**
-   ```
-   ⚠  WARNING: Hardcoding credentials in build.gradle.kts is not recommended.
-   These values will be visible in your git history if committed.
-   Consider using local.properties instead.
-   ```
-
-   **Then output the direct approach:**
-   ```kotlin
-   android {
-       signingConfigs {
-           create("release") {
-               storeFile = file("[keystore_filename]")
-               storePassword = "{config.android.keystore_password}"
-               keyAlias = "[appname_lowercase]"
-               keyPassword = "{config.android.keystore_password}"
-           }
-       }
-       buildTypes {
-           release {
-               signingConfig = signingConfigs.getByName("release")
-               isMinifyEnabled = true
-               isShrinkResources = true
-               proguardFiles(
-                   getDefaultProguardFile("proguard-android-optimize.txt"),
-                   "proguard-rules.pro"
-               )
-           }
-       }
-   }
-   ```
-
-4. Final reminder:
+3. Final reminder:
    ```
    SIGNING CONFIG GENERATED
    ────────────────────────

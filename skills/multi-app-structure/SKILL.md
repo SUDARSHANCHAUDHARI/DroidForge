@@ -41,7 +41,7 @@ For common utilities across apps (AdMob helper, in-app review wrapper, crash rep
 
 - One `.jks` per app (alias = app name lowercase)
 - All keystores stored in the same secure, backed-up location outside any git repo
-- Use consistent password (from `{config.android.keystore_password}`) for easier management
+- Use consistent password (from the `DROIDFORGE_KEYSTORE_PASSWORD` env var) for easier management
 - All new apps enrolled in Play App Signing — Google holds the app signing key
 
 ### App tracker (recommended spreadsheet columns)
