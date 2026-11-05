@@ -130,10 +130,12 @@ Loaded automatically by Claude when relevant context is detected:
 
 ## Hooks
 
+Registered in `hooks/hooks.json`. Warnings only — never blocks the command.
+
 | Hook | When it fires |
 |---|---|
-| `pre-build-check` | Before `gradlew bundleRelease` / `assembleRelease` — warns if signing config or keystore is missing |
-| `post-version-bump` | After `build.gradle.kts` version change — reminds about changelog and git tag |
+| `hooks/pre-release-check.sh` | Before a Bash command containing `bundleRelease`, `assembleRelease` or `apksigner` — warns if versionCode is not above the last git tag's, signing config or keystore is missing, a keystore is tracked by git, or `*.jks` / `*.keystore` is not in `.gitignore` |
+| `post-version-bump` | Not active yet — `hooks/post-version-bump.md` describes it, but no script runs it |
 
 ## How It Works
 
@@ -164,7 +166,7 @@ DroidForge/
 ├── skills/                      # keystore-conventions, package-naming,
 │                                #   gradle-best-practices, multi-app-structure,
 │                                #   release-workflow
-├── hooks/                       # pre-build-check, post-version-bump
+├── hooks/                       # hooks.json + pre-release-check.sh
 ├── README.md
 ├── DOCUMENTATION.md
 ├── CHANGELOG.md

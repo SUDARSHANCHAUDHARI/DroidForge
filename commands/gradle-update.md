@@ -36,7 +36,7 @@ First, read `.claude-plugin-config.json` from the current directory.
      - AGP 8.4.x → Gradle 8.6+
      - AGP 8.3.x → Gradle 8.4+
    - `compileSdk` must be ≥ `targetSdk`
-   - `targetSdk` for new Play Store submissions should be the latest stable API level (35 as of 2025)
+   - `targetSdk` for new Play Store submissions should be the latest stable API level (36, Android 16)
 
 5. Generate the updated version entries. Do NOT write to disk yet.
 

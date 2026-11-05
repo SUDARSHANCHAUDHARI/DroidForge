@@ -56,7 +56,7 @@ Read `.claude-plugin-config.json` from the current directory.
 3. `app/src/main/AndroidManifest.xml` — with correct applicationId/package name
 4. `app/src/main/java/[package/path]/MainActivity.kt` — Compose entry point
 5. `proguard-rules.pro` — base file with standard rules comment
-6. `.gitignore` — including `*.jks`, `local.properties`, `.claude-plugin-config.json`, `.gradle/`, `build/`
+6. `.gitignore` — including `*.jks`, `*.keystore`, `local.properties`, `.claude-plugin-config.json`, `.gradle/`, `build/`
 7. `README.md` — project description template
 
 ## After scaffolding, always remind user to

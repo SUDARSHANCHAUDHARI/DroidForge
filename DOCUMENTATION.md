@@ -388,24 +388,27 @@ Skills are loaded automatically by Claude when relevant context is detected.
 
 ## Hooks
 
-### pre-build-check (PreToolUse)
+### pre-release-check (PreToolUse)
 
-Fires before any Bash call containing `gradlew bundleRelease` or `gradlew assembleRelease`. Checks:
-- `signingConfigs` block exists in `build.gradle.kts`
-- Keystore file referenced in `local.properties` exists on disk
-- `versionCode` and `versionName` are present
+Script: `hooks/pre-release-check.sh`, registered in `hooks/hooks.json`. Fires before any Bash call containing `bundleRelease`, `assembleRelease` or `apksigner`. Checks:
+- `versionCode` and `versionName` are present in `app/build.gradle.kts` (or `app/build.gradle`)
+- `versionCode` is greater than the one at the last git tag (skipped if there is no tag)
+- `signingConfigs` block exists
+- Keystore file referenced by `KEYSTORE_PATH` in `local.properties` exists on disk (only that line is read — never the passwords)
+- No `*.jks` / `*.keystore` file is tracked by git
+- `*.jks` and `*.keystore` are in `.gitignore`
 
-Warnings only — does not block the build.
+Warnings only — always exits 0, never blocks the build.
 
 **Example warning:**
 ```
-⚠  DroidForge: Keystore file not found: taskmaster.jks
-   Run /droidforge:keystore TaskMaster to generate it.
+DroidForge pre-release check:
+  - Keystore file not found: taskmaster.jks. Run /droidforge:keystore to generate it.
 ```
 
-### post-version-bump (PostToolUse)
+### post-version-bump (PostToolUse) — not active yet
 
-Fires after any Write call to `build.gradle.kts` that changes `versionCode` or `versionName`. Reminds the user to update `CHANGELOG.md` and create a git tag.
+Described in `hooks/post-version-bump.md`; no script implements it yet, so it does not fire. Intended behaviour: fires after any Write call to `build.gradle.kts` that changes `versionCode` or `versionName`. Reminds the user to update `CHANGELOG.md` and create a git tag.
 
 **Example reminder:**
 ```
@@ -465,8 +468,8 @@ plugins {
 
 | Field | Recommended | Notes |
 |---|---|---|
-| `compileSdk` | 35 | Must be ≥ targetSdk |
-| `targetSdk` | 35 | Play Store requires 35 for new submissions (as of 2024) |
+| `compileSdk` | 36 | Must be ≥ targetSdk |
+| `targetSdk` | 36 | Android 16. Must meet Play's current target API requirement |
 | `minSdk` | 24 | Android 7.0 — ~96% device coverage |
 
 ### Current Stable Versions (April 2026)
@@ -601,8 +604,9 @@ droidforge/
 │   ├── multi-app-structure/     # Portfolio management, repo strategy
 │   └── release-workflow/        # End-to-end release process
 ├── hooks/
-│   ├── pre-build-check.md       # PreToolUse — warns before release builds
-│   └── post-version-bump.md     # PostToolUse — reminds after version changes
+│   ├── hooks.json               # Hook registration (auto-loaded by Claude Code)
+│   ├── pre-release-check.sh     # PreToolUse — warns before release builds
+│   └── post-version-bump.md     # PostToolUse — described only, not active yet
 ├── CHANGELOG.md
 ├── DOCUMENTATION.md             # This file
 ├── LICENSE
@@ -614,4 +618,4 @@ droidforge/
 - **Commands** (`commands/*.md`) — define the user-facing workflow step by step. They load config, ask questions, and execute tasks directly or by invoking agents.
 - **Agents** (`agents/*.md`) — autonomous specialists triggered automatically by context or explicitly invoked by the user. Each agent has a focused responsibility.
 - **Skills** (`skills/*/SKILL.md`) — reference knowledge loaded automatically by Claude when the context matches. They carry the detailed rules and tables that commands and agents rely on, without bloating the command files themselves.
-- **Hooks** (`hooks/*.md`) — event-driven checks that fire automatically on specific tool calls. They add passive safety without requiring user action.
+- **Hooks** (`hooks/hooks.json` + scripts) — event-driven checks that fire automatically on specific tool calls. They add passive safety without requiring user action.

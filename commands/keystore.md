@@ -44,7 +44,14 @@ keytool -list -v -keystore [appname_lowercase].jks -storepass:env DROIDFORGE_KEY
 ```
    Show the verification output. If the command fails, show the error and stop.
 
-5. Show the local.properties entries for signing, then tell the user to run `/droidforge:signing-config` to generate the `app/build.gradle.kts` block that reads them. Never put a password literal in `build.gradle.kts`.
+5. Make sure keystores can never be committed. Append `*.jks` and `*.keystore` to the project's `.gitignore` if either line is absent (creates the file if missing):
+```bash
+touch .gitignore
+[ -n "$(tail -c1 .gitignore)" ] && echo >> .gitignore
+for p in '*.jks' '*.keystore'; do grep -qxF "$p" .gitignore || printf '%s\n' "$p" >> .gitignore; done
+```
+
+6. Show the local.properties entries for signing, then tell the user to run `/droidforge:signing-config` to generate the `app/build.gradle.kts` block that reads them. Never put a password literal in `build.gradle.kts`.
 
 ```properties
 # Add to local.properties yourself (never commit this file; never paste the password into chat)
@@ -54,11 +61,11 @@ KEY_ALIAS=[appname_lowercase]
 KEY_PASSWORD=<your keystore password>
 ```
 
-6. Remind the user:
+7. Remind the user:
    ```
    KEYSTORE CREATED: [appname_lowercase].jks
    ──────────────────────────────────────────
-   ⚠  Add *.jks to .gitignore — never commit keystores
+   ✓  *.jks and *.keystore are in .gitignore — never commit keystores
    ⚠  Back up this file to secure cloud storage immediately
    ⚠  Losing this keystore = cannot update the app on Play Store
    ✓  Keystore password taken from $DROIDFORGE_KEYSTORE_PASSWORD (not stored by DroidForge)

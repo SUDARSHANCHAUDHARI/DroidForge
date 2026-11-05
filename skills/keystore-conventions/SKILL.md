@@ -45,7 +45,7 @@ keytool -genkeypair \
 
 ### Security rules
 
-- Never commit `.jks` files — always in `.gitignore` as `*.jks`
+- Never commit `.jks` or `.keystore` files — always in `.gitignore` as `*.jks` and `*.keystore`
 - Never store keystore password in any tracked file
 - Keep keystores in a secure, backed-up location outside the git repo
 - Back up to encrypted cloud storage immediately after creation

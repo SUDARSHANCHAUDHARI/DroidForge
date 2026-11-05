@@ -37,29 +37,37 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 **Do NOT use** `kotlinOptions { kotlinCompilerExtensionVersion = "..." }` — this is deprecated for Kotlin 2.0+.
 
-### SDK target versions (2025)
+### SDK target versions
 
 ```kotlin
 android {
-    compileSdk = 35      // Android 15 — current as of 2025
+    compileSdk = 36      // Android 16
     defaultConfig {
         minSdk = 24      // Android 7.0 — ~96% device coverage
-        targetSdk = 35
+        targetSdk = 36
     }
 }
 ```
 
-**Play Store requirement**: `targetSdk` must meet Google's current minimum (35 for new submissions as of late 2024). Apps with outdated `targetSdk` receive policy warnings.
+**Play Store requirement**: `targetSdk` must meet Google's current minimum target API level (check Play Console's target API requirements). Apps with outdated `targetSdk` receive policy warnings.
 
 ### Java / Kotlin compile options
 
+`kotlinOptions` is deprecated; set the JVM target with `compilerOptions` in a top-level `kotlin {}` block (outside `android {}`).
+
 ```kotlin
-compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
-kotlinOptions {
-    jvmTarget = "11"
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
 }
 ```
 
