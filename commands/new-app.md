@@ -53,6 +53,7 @@ keytool -genkeypair \
 **app/build.gradle.kts**
 ```kotlin
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 val localProps = Properties().apply {
     file("../local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
@@ -104,12 +105,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-
     buildFeatures {
         compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
     }
 }
 
@@ -181,7 +184,7 @@ KEY_PASSWORD=<your keystore password>
 
 **proguard-rules.pro** — empty file with comment
 
-**.gitignore** — include `*.jks`, `local.properties`, `.gradle/`, `build/`, `.claude-plugin-config.json`
+**.gitignore** — include `*.jks`, `*.keystore`, `local.properties`, `.gradle/`, `build/`, `.claude-plugin-config.json`
 
 5. Output a setup summary:
 

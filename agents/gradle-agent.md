@@ -47,7 +47,7 @@ Read `.claude-plugin-config.json` from the current directory if relevant to the 
 
 1. **Kotlin 2.0+**: Use `alias(libs.plugins.kotlin.compose)` in `app/build.gradle.kts` plugins block. Do NOT use `kotlinCompilerExtensionVersion` — that is deprecated for Kotlin 2.0+.
 2. **AGP ↔ Gradle wrapper**: AGP 8.7.x requires Gradle 8.9+; AGP 8.4.x requires Gradle 8.6+; AGP 8.3.x requires Gradle 8.4+. Always check `gradle/wrapper/gradle-wrapper.properties` compatibility.
-3. **compileSdk ≥ targetSdk**: Always true. Both should be 35 (Android 15) for new apps in 2025.
+3. **compileSdk ≥ targetSdk**: Always true. Both should be 36 (Android 16) for new apps.
 4. **minSdk**: 24 recommended (Android 7.0, ~96% device coverage).
 5. **Compose BOM**: When using Compose BOM, do not specify individual Compose library versions — the BOM controls them.
 
@@ -113,12 +113,17 @@ buildTypes {
     }
 }
 
-// Correct Java/Kotlin compile options
-compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+// Correct Java/Kotlin compile options (kotlinOptions is deprecated)
+// needs: import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
-kotlinOptions {
-    jvmTarget = "11"
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
 }
 ```
