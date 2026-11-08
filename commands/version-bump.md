@@ -16,10 +16,13 @@ First, read `.claude-plugin-config.json` from the current directory.
 
 1. Find `app/build.gradle.kts`. If not found, ask the user for the path to the build file.
 
-2. Read the file and extract:
-   - Current `versionCode` (integer)
-   - Current `versionName` (string, e.g. "1.2.3")
-   If either cannot be found, report the error and stop.
+2. Read the file and find where the version lives:
+   - **Literal in the build file**: `versionCode = 12` and `versionName = "1.2.3"`. Extract both.
+   - **Properties file**: `versionCode` / `versionName` are variables read from a file loaded with
+     `rootProject.file("<path>.properties")` (for example `config/version.properties` holding
+     `VERSION_CODE`, `VERSION_MAJOR`, `VERSION_MINOR`, `VERSION_PATCH`). Read that file and take
+     versionCode from `VERSION_CODE` and versionName from `MAJOR.MINOR.PATCH` (or `VERSION_NAME`).
+   If neither can be found, report the error and stop.
 
 3. If a bump type was provided as an argument, use it. Otherwise ask:
    ```
@@ -47,9 +50,12 @@ First, read `.claude-plugin-config.json` from the current directory.
    Proceed? (y/n)
    ```
 
-6. On confirmation, edit `app/build.gradle.kts` using exact string replacement:
-   - Replace `versionCode = [old]` with `versionCode = [new]`
-   - Replace `versionName = "[old]"` with `versionName = "[new]"`
+6. On confirmation, edit where the version lives, using exact string replacement:
+   - Literal in the build file: in `app/build.gradle.kts` replace `versionCode = [old]` with
+     `versionCode = [new]` and `versionName = "[old]"` with `versionName = "[new]"`.
+   - Properties file: in that file replace `VERSION_CODE=[old]` with `VERSION_CODE=[new]`, and each
+     changed `VERSION_MAJOR` / `VERSION_MINOR` / `VERSION_PATCH` line (or `VERSION_NAME`). Leave the
+     build file untouched.
 
 7. Confirm the update:
    ```
