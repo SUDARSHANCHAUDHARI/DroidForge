@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [Unreleased]
+
+### Added
+- `/droidforge:portfolio-audit` — read-only audit of every Android app under a folder: versionName
+  and versionCode (including the `config/version.properties` convention), min/target/compile SDK
+  (including version-catalog references), AGP and Kotlin, release signing, R8, signing files tracked
+  by git, a password written in the build file, branch and uncommitted changes. `--min-target N`
+  flags apps below a target SDK floor; none is assumed
+- `/droidforge:ship` — pre-flight audit, version bump, release checklist and `bundleRelease` in one
+  flow with a stop for the user's go at each step; never commits, tags, pushes or uploads
+- `scripts/portfolio_audit.py` and `tests/` — stdlib Python, 8 unit tests
+
 ## [1.0.0] — 2026-04-06
 
 ### Added
