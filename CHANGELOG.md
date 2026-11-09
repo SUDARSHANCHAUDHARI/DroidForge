@@ -18,6 +18,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   flow with a stop for the user's go at each step; never commits, tags, pushes or uploads
 - `scripts/portfolio_audit.py` and `tests/` — stdlib Python, 9 unit tests
 
+### Changed
+- `/droidforge:version-bump` also handles a version kept in a properties file loaded with
+  `rootProject.file(...)` (for example `config/version.properties` with `VERSION_CODE` and
+  `VERSION_MAJOR/MINOR/PATCH`): it edits that file and leaves the build file alone
+
 ## [1.0.0] — 2026-04-06
 
 ### Added
