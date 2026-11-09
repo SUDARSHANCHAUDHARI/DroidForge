@@ -105,6 +105,8 @@ Interactive section-by-section checklist covering build, testing, Play Console, 
 | `/droidforge:version-bump` | Bump versionCode and versionName (patch / minor / major) |
 | `/droidforge:gradle-update` | Update version catalog with compatibility checks |
 | `/droidforge:release-checklist` | Interactive pre-submission checklist for Play Store |
+| `/droidforge:portfolio-audit` | Read-only audit of every app under a folder: versions, SDK levels, signing, R8, signing files in git |
+| `/droidforge:ship` | Pre-flight, version bump, checklist and `bundleRelease` in one flow, stopping for your go; never uploads |
 
 ## Agents
 
@@ -161,12 +163,15 @@ DroidForge/
 │   ├── plugin.json              # Plugin manifest
 │   └── marketplace.json         # Marketplace listing
 ├── commands/                    # setup, new-app, keystore, signing-config,
-│                                #   version-bump, gradle-update, release-checklist
+│                                #   version-bump, gradle-update, release-checklist,
+│                                #   portfolio-audit, ship
 ├── agents/                      # setup-agent, gradle-agent, release-agent
 ├── skills/                      # keystore-conventions, package-naming,
 │                                #   gradle-best-practices, multi-app-structure,
 │                                #   release-workflow
 ├── hooks/                       # hooks.json + pre-release-check.sh
+├── scripts/portfolio_audit.py   # Read-only portfolio audit (stdlib Python)
+├── tests/                       # python3 -I -m unittest discover -s tests
 ├── README.md
 ├── DOCUMENTATION.md
 ├── CHANGELOG.md
