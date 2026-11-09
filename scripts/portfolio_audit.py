@@ -95,8 +95,28 @@ def version_from_properties(props):
 
 
 def release_block(build):
-    m = re.search(r'(getByName\("release"\)|\brelease\s*\{)', build)
-    return build[m.start(): m.start() + 1500] if m else ""
+    """Every release block, brace-matched and joined. A fixed-length slice read the debug block.
+
+    shortcut: counts braces without tracking strings or comments, so a `{` inside a Gradle string
+    literal inside a release block would end it early; upgrade to a real parse if that shows up.
+    """
+    out = []
+    for m in re.finditer(r'(?:getByName|create)\("release"\)|\brelease\s*\{', build):
+        start = build.find("{", m.start())
+        if start < 0:
+            continue
+        depth = 0
+        for i in range(start, len(build)):
+            if build[i] == "{":
+                depth += 1
+            elif build[i] == "}":
+                depth -= 1
+                if depth == 0:
+                    out.append(build[start:i + 1])
+                    break
+        else:
+            out.append(build[start:])  # unbalanced braces: read to the end rather than drop the block
+    return "\n".join(out)
 
 
 def tracked_files(repo):

@@ -16,7 +16,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   flags apps below a target SDK floor; none is assumed
 - `/droidforge:ship` — pre-flight audit, version bump, release checklist and `bundleRelease` in one
   flow with a stop for the user's go at each step; never commits, tags, pushes or uploads
-- `scripts/portfolio_audit.py` and `tests/` — stdlib Python, 8 unit tests
+- `scripts/portfolio_audit.py` and `tests/` — stdlib Python, 9 unit tests
 
 ## [1.0.0] — 2026-04-06
 

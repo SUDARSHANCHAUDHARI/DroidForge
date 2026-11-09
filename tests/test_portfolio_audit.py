@@ -125,6 +125,18 @@ class Audit(unittest.TestCase):
         r = pa.audit_app(make(self.root, "VarApp", build), None, tracked=lambda _r: [], git=clean_git)
         self.assertTrue(r["releaseSigning"])
 
+    def test_debug_block_is_not_read_as_the_release_block(self):
+        build = GOOD_KTS.replace(
+            '            isMinifyEnabled = true\n            signingConfig = signingConfigs.getByName("release")',
+            "            isMinifyEnabled = false\n"
+            "        }\n"
+            '        getByName("debug") {\n'
+            "            isMinifyEnabled = true\n"
+            '            signingConfig = signingConfigs.getByName("debug")')
+        r = pa.audit_app(make(self.root, "LeakApp", build), None, tracked=lambda _r: [], git=clean_git)
+        self.assertFalse(r["releaseSigning"])
+        self.assertFalse(r["minify"])
+
     def test_find_apps_depth_and_skips(self):
         make(self.root, "A", GOOD_KTS)
         make(self.root / "group", "B", GOOD_KTS)
